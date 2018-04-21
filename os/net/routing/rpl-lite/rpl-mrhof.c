@@ -175,7 +175,7 @@ nbr_is_acceptable_parent(rpl_nbr_t *nbr)
 {
   uint16_t path_cost = nbr_path_cost(nbr);
   /* Exclude links with too high link metrics or path cost (RFC6719, 3.2.2) */
-  return nbr_has_usable_link(nbr) && path_cost <= MAX_PATH_COST;
+  return /*nbr_has_usable_link(nbr) &&*/ path_cost <= MAX_PATH_COST;
 }
 /*---------------------------------------------------------------------------*/
 static int
