@@ -174,7 +174,7 @@ MOTELIST = python $(CONTIKI)/tools/jn516x/mote-list.py
 # Check if we are running under Windows
 ifeq ($(HOST_OS),Windows)
   USBDEVPREFIX=/dev/com
-  USBDEVBASENAME=COM
+  USBDEVBASENAME=
   SERIALDUMP ?= $(CONTIKI)/tools/jn516x/serialdump-windows
 else
 ifeq ($(HOST_OS),Darwin)
