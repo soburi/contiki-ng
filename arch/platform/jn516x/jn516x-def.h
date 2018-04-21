@@ -238,6 +238,9 @@ typedef long long int64_t;
 typedef uint16_t uip_stats_t;
 typedef uint32_t clock_time_t;
 
+extern int slip_debug_printf(const char* fmt, ...);
+
+
 /* Shall we calibrate the DCO periodically? */
 #ifndef DCOSYNCH_CONF_ENABLED
 #define DCOSYNCH_CONF_ENABLED (!(MAC_CONF_WITH_TSCH))

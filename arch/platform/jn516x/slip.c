@@ -47,8 +47,8 @@
 #include <MicroInt.h>
 #include "net/ipv6/uip.h"
 #define BUF ((struct uip_tcpip_hdr *)&uip_buf[UIP_LLH_LEN])
-
 #include "dev/slip.h"
+#include <strformat.h>
 
 #define DEBUG 0
 #if DEBUG
@@ -182,6 +182,45 @@ slip_write(const void *_ptr, int len)
   }
   slip_arch_writeb(SLIP_END);
 }
+
+static strformat_result
+slip_debug_write(void *user_data, const char *data, unsigned int len)
+{
+  const char *ptr = data;
+  uint16_t i;
+  uint8_t c;
+
+  if(len > 0) {
+    slip_arch_writeb(SLIP_END);
+    slip_arch_writeb('\r');
+
+    for(i = 0; i < len; ++i) {
+      c = *ptr++;
+      slip_write_char(c);
+    }
+    slip_arch_writeb(SLIP_END);
+  }
+  return STRFORMAT_OK;
+}
+
+static strformat_context_t ctxt =
+{
+  slip_debug_write,
+  NULL
+};
+
+int
+slip_debug_printf(const char* fmt, ...)
+{
+  int res;
+  va_list ap;
+  va_start(ap, fmt);
+  res = format_str_v(&ctxt, fmt, ap);
+  va_end(ap);
+  return res;
+
+}
+
 /*---------------------------------------------------------------------------*/
 /* slip_send: forward (IPv4) packets with {UIP_FW_NETIF(..., slip_send)}
  * was used in slip-bridge.c

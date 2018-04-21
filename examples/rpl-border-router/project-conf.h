@@ -43,4 +43,7 @@
 #define UIP_CONF_TCP 1
 #endif
 
+extern int slip_debug_printf(const char* fmt, ...);
+#define LOG_CONF_OUTPUT slip_debug_printf
+
 #endif /* PROJECT_CONF_H_ */
